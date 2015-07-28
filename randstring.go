@@ -16,8 +16,8 @@ import (
 */
 const chars = "0123456789bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ"
 
-func AlphaNum(n int) (string, error) {
-	max := big.NewInt(int64(len(chars)))
+func randFromString(n int, charSet string) (string, error) {
+	max := big.NewInt(int64(len(charSet)))
 
 	bytes := make([]byte, n)
 	for i := range bytes {
@@ -26,9 +26,18 @@ func AlphaNum(n int) (string, error) {
 			return "", err
 		}
 
-		bytes[i] = chars[int(j.Int64())]
+		bytes[i] = charSet[int(j.Int64())]
 	}
+
 	return string(bytes), nil
+}
+
+func AlphaNum(n int) (string, error) {
+	return randFromString(n, chars)
+}
+
+func Numeric(n int) (string, error) {
+	return randFromString(n, chars[0:10])
 }
 
 func Hex(n int) (string, error) {
